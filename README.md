@@ -7,7 +7,7 @@ Também possui um select em que pode escolher vários países e cidades, esses d
 ## Vercel
 
 Vercel para ter uma visualização sem precisar rodar localmente.
-https://allyhub-sinanju-06s.vercel.app/
+https://ally-hub-final.vercel.app/
 
 ## Como rodar o projeto:
 
