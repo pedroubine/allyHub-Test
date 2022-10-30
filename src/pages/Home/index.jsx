@@ -8,6 +8,12 @@ import './styles.css';
 import logo from '../../images/ally.png';
 import * as yup from 'yup';
 
+const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      width: 250,
+    }),
+}
 
 const schema = yup.object({
   name: yup.string('Coloque um nome válido').required('O nome é obrigatório'),
@@ -53,7 +59,6 @@ const Home = () => {
       <form onSubmit={handleSubmit(sendData)} className="form-container">
       <img alt="Logo Ally hub" src={logo} className="image_ally"/>
       <h1 className="title-page">Ally Forms</h1>
-       <span className='description'>Por favor, preencha os campos abaixo para enviarmos a pesquisa! </span>
         <label className='label-form'>
           Nome
           </label>
@@ -111,6 +116,7 @@ const Home = () => {
           name="Country"
           render={({ field: { onChange, value, ref } }) => (
             <Select
+              styles={customStyles}
               classNamePrefix="mySelect"
               placeholder="Escolhas os países"
               inputRef={ref}
@@ -126,6 +132,7 @@ const Home = () => {
           name="Cities"
           render={({ field: { onChange, value, ref } }) => (
             <Select
+              styles={customStyles}
               placeholder="Escolhas as cidades"
               inputRef={ref}
               options={cities}
