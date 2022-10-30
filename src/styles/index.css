@@ -1,13 +1,10 @@
 @font-face {
-    src: url("../../Fonts/Poppins/Poppins-Regular.ttf");    
+    src: url("../fonts/Poppins/Poppins-Regular.ttf");    
     font-weight: normal;
     font-family: 'Poppins';
 } 
 
-#root {
-    height: 100vh;
-}
-
 body{
     font-family: 'Poppins';
+    overflow-x: hidden;
 }
