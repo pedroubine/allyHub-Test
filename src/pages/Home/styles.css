@@ -88,7 +88,9 @@ img {
     width: 50%;
 
 }
-
+.label-form{
+    display: flex;
+}
 .mySelect{
     display: flex;
     width: 50%;

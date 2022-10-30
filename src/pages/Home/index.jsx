@@ -8,6 +8,7 @@ import './styles.css';
 import logo from '../../images/ally.png';
 import * as yup from 'yup';
 
+
 const schema = yup.object({
   name: yup.string('Coloque um nome válido').required('O nome é obrigatório'),
   email: yup
@@ -15,14 +16,14 @@ const schema = yup.object({
     .email('Digite um email válido')
     .required('O email é obrigatório'),
   cellphone: yup
-    .number("Favor utilizar somente números")
-    .required('O celular é obrigatório')
-    .typeError("Favor utilizar somente números"),
+    .string()
+    .matches(new RegExp('[0-9]{2}[0-9]{4,5}[0-9]{4}'), 'Favor inserir um número de celular válido.')
+    .required('O número é obrigatorio'),
 
   cpf: yup
     .string()
     .required('O cpf é obrigatório')
-    .length(11, 'É necessario 11 caracteres'),
+    .matches(new RegExp('[0-9]{11}'), 'Favor inserir um número de cpf válido.'),
 });
 
 const Home = () => {
@@ -37,15 +38,16 @@ const Home = () => {
   } = useForm({ resolver: yupResolver(schema) });
 
   function sendData(FormData) {
-    if(FormData.Cities.length === 0 || FormData.Cities === undefined 
-        || FormData.Country.length === 0 || FormData.Country === undefined) {
+    
+    if(FormData.Cities === undefined  || FormData.Country.Cities === 0
+        || FormData.Country === undefined || FormData.Country === 0) {
             alert("Favor escolher ao menos um país e cidade.")
         }
     else {    
         alert(JSON.stringify(FormData));
     }
   }
-  console.log(errors);
+
   return (
     <div className="container">
       <form onSubmit={handleSubmit(sendData)} className="form-container">
@@ -53,20 +55,20 @@ const Home = () => {
       <h1 className="title-page">Ally Forms</h1>
        <span className='description'>Por favor, preencha os campos abaixo para enviarmos a pesquisa! </span>
         <label className='label-form'>
-          Nome:
+          Nome
           </label>
-          <input
-            className='input-form'
-            placeholder="João Henrique de Oliveira"
-            type="text"
-            id="name"
-            name="name"
-            {...register('name', { required: true })}
-          />
+            <input
+                className='input-form'
+                placeholder="João Henrique de Oliveira"
+                type="text"
+                id="name"
+                name="name"
+                {...register('name', { required: true })}
+            />
           <span className='error'> {errors.name?.message}</span>
 
         <label className='label-form'>
-          Email:
+          Email
           </label>
           <input
             className='input-form'
@@ -78,12 +80,12 @@ const Home = () => {
           />
           <span className='error'> {errors.email?.message}</span>
         <label className='label-form'>
-          Celular:
+          Celular
           </label>
           <input
             className='input-form'
             placeholder="9999999-9999"
-            type="tel"
+            type="text"
             id="cellphone"
             name="cellphone"
             inputMode="numeric"
@@ -92,11 +94,11 @@ const Home = () => {
           />
          <span className='error'> {errors.cellphone?.message}</span>
         <label className='label-form'>
-          CPF:
+          CPF
           </label>
           <input
           className='input-form'
-            placeholder="123 432 239 08"
+            placeholder="12343223908"
             type="text"
             id="cpf"
             name="cpf"
