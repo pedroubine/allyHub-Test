@@ -5,8 +5,8 @@ import Select from 'react-select';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import './styles.css';
+import logo from '../../images/ally.png';
 import * as yup from 'yup';
-
 
 const schema = yup.object({
   name: yup.string('Coloque um nome válido').required('O nome é obrigatório'),
@@ -17,7 +17,6 @@ const schema = yup.object({
   cellphone: yup
     .number("Favor utilizar somente números")
     .required('O celular é obrigatório')
-    .max(12, 'Número de celular invalido')
     .typeError("Favor utilizar somente números"),
 
   cpf: yup
@@ -38,39 +37,46 @@ const Home = () => {
   } = useForm({ resolver: yupResolver(schema) });
 
   function sendData(FormData) {
-    alert(JSON.stringify(FormData));
+    if(FormData.Cities.length === 0 || FormData.Cities === undefined 
+        || FormData.Country.length === 0 || FormData.Country === undefined) {
+            alert("Favor escolher ao menos um país e cidade.")
+        }
+    else {    
+        alert(JSON.stringify(FormData));
+    }
   }
-  
+  console.log(errors);
   return (
     <div className="container">
       <form onSubmit={handleSubmit(sendData)} className="form-container">
-      <h1 className="title-page">Informações pessoais</h1>
+      <img alt="Logo Ally hub" src={logo} className="image_ally"/>
+      <h1 className="title-page">Ally Forms</h1>
        <span className='description'>Por favor, preencha os campos abaixo para enviarmos a pesquisa! </span>
         <label className='label-form'>
           Nome:
           </label>
           <input
-                    className='input-form'
+            className='input-form'
             placeholder="João Henrique de Oliveira"
             type="text"
             id="name"
             name="name"
             {...register('name', { required: true })}
           />
-          <span className='error'>{errors.name?.message}</span>
+          <span className='error'> {errors.name?.message}</span>
 
         <label className='label-form'>
           Email:
           </label>
           <input
-                    className='input-form'
+            className='input-form'
             placeholder="joao@email.com.br"
             type="text"
             id="email"
             name="email"
             {...register('email', { required: true })}
           />
-          <span className='error'>{errors.email?.message}</span>
+          <span className='error'> {errors.email?.message}</span>
         <label className='label-form'>
           Celular:
           </label>
@@ -84,7 +90,7 @@ const Home = () => {
             autoComplete="tel"
             {...register('cellphone', { required: true })}
           />
-         <span className='error'>{errors.cellphone?.message}</span>
+         <span className='error'> {errors.cellphone?.message}</span>
         <label className='label-form'>
           CPF:
           </label>
@@ -96,13 +102,14 @@ const Home = () => {
             name="cpf"
             {...register('cpf', { required: true })}
           />
-          <span className='error'>{errors.cpf?.message}</span>
+          <span className='error'> {errors.cpf?.message}</span>
         {/* Dropdown com países com cidades */}
         <Controller
           control={control}
           name="Country"
           render={({ field: { onChange, value, ref } }) => (
             <Select
+              classNamePrefix="mySelect"
               placeholder="Escolhas os países"
               inputRef={ref}
               options={data}
